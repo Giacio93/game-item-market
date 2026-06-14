@@ -26,7 +26,40 @@ export default async function HomePage() {
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 py-8 sm:px-6 lg:px-8">
-      <section className="grid gap-8 py-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <section className="grid gap-8 py-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+                <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/30">
+          <div className="rounded-2xl bg-slate-950/70 p-5">
+            <p className="text-sm font-semibold uppercase tracking-wide text-white">
+              Come funziona
+            </p>
+
+            <div className="mt-5 space-y-4">
+              <div className="rounded-xl bg-white/[0.06] p-4">
+                <p className="font-bold text-white">1. Scegli l’item</p>
+                <p className="mt-1 text-sm leading-6 text-slate-400">
+                  Apri la scheda dell’item e controlla immagine, descrizione,
+                  prezzo richiesto e stato.
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-white/[0.06] p-4">
+                <p className="font-bold text-white">2. Invia la tua offerta</p>
+                <p className="mt-1 text-sm leading-6 text-slate-400">
+                  Compila il form con nickname, contatto Discord o WhatsApp e
+                  importo che vuoi proporre.
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-white/[0.06] p-4">
+                <p className="font-bold text-white">3. Attendi il contatto</p>
+                <p className="mt-1 text-sm leading-6 text-slate-400">
+                  Se l’offerta è interessante, verrai ricontattato direttamente.
+                  Non ci sono pagamenti online né registrazioni.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="space-y-6">
           <div className="inline-flex rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-semibold text-blue-200">
             Item disponibili alla vendita
@@ -59,40 +92,6 @@ export default async function HomePage() {
             >
               Vedi ultimi inserimenti
             </a>
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/30">
-          <div className="rounded-2xl bg-slate-950/70 p-5">
-            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-              Come funziona
-            </p>
-
-            <div className="mt-5 space-y-4">
-              <div className="rounded-xl bg-white/[0.06] p-4">
-                <p className="font-bold text-white">1. Scegli l’item</p>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Apri la scheda dell’item e controlla immagine, descrizione,
-                  prezzo richiesto e stato.
-                </p>
-              </div>
-
-              <div className="rounded-xl bg-white/[0.06] p-4">
-                <p className="font-bold text-white">2. Invia la tua offerta</p>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Compila il form con nickname, contatto Discord o WhatsApp e
-                  importo che vuoi proporre.
-                </p>
-              </div>
-
-              <div className="rounded-xl bg-white/[0.06] p-4">
-                <p className="font-bold text-white">3. Attendi il contatto</p>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Se l’offerta è interessante, verrai ricontattato direttamente.
-                  Non ci sono pagamenti online né registrazioni.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>

@@ -12,14 +12,14 @@ type ItemsPageProps = {
   }>;
 };
 
-const allowedStatuses: ItemStatus[] = ['AVAILABLE', 'NEGOTIATION', 'SOLD'];
+const publicStatuses: ItemStatus[] = ['AVAILABLE', 'NEGOTIATION'];
 
 function getValidStatus(status?: string): ItemStatus | null {
   if (!status) {
     return null;
   }
 
-  if (allowedStatuses.includes(status as ItemStatus)) {
+  if (publicStatuses.includes(status as ItemStatus)) {
     return status as ItemStatus;
   }
 
@@ -32,6 +32,7 @@ async function getItems(status: ItemStatus | null) {
   let query = supabase
     .from('items')
     .select('*')
+    .neq('status', 'SOLD')
     .order('created_at', { ascending: false });
 
   if (status) {
@@ -63,7 +64,7 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
       href: '/items',
       active: currentStatus === null,
     },
-    ...allowedStatuses.map((status) => ({
+    ...publicStatuses.map((status) => ({
       label: ITEM_STATUS_LABEL[status],
       href: `/items?status=${status}`,
       active: currentStatus === status,
@@ -90,10 +91,18 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
           </h1>
 
           <p className="max-w-2xl text-base leading-7 text-slate-400">
-            Consulta tutti gli item disponibili, quelli già in trattativa o
-            quelli venduti. Apri la scheda dell’item che ti interessa per vedere
-            prezzo, dettagli e inviare una proposta senza registrazione.
+            Qui trovi solo gli item ancora acquistabili. Puoi inviare un’offerta
+            sia sugli item disponibili sia su quelli in trattativa.
           </p>
+
+          <div className="max-w-3xl rounded-2xl border border-blue-400/20 bg-blue-400/10 p-4">
+            <p className="text-sm leading-6 text-blue-100">
+              <span className="font-bold text-white">Nota sugli item in trattativa:</span>{' '}
+              significa che sto già valutando una proposta, ma non ho ancora
+              accettato nessuna offerta. Se l’item ti interessa, puoi comunque
+              inviare la tua proposta: verrà presa in considerazione.
+            </p>
+          </div>
         </div>
       </header>
 
