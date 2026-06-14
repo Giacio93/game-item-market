@@ -19,7 +19,7 @@ export const createOfferSchema = z.object({
   contact: z
     .string()
     .trim()
-    .min(3, 'Inserisci un contatto Discord o Telegram valido.')
+    .min(3, 'Inserisci un contatto Discord o WhatsApp valido.')
     .max(80, 'Il contatto non può superare 80 caratteri.'),
 
   amount: z.coerce

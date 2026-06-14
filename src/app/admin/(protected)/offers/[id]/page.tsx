@@ -124,7 +124,7 @@ export default async function OfferDetailPage({
 
               <div className="rounded-2xl bg-slate-950/60 p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Discord / Telegram
+                  Discord / WhatsApp
                 </p>
 
                 <p className="mt-2 break-words text-lg font-bold text-white">

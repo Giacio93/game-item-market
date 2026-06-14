@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { createClient } from '@/src/lib/supabase/client';
+import { createClient } from '@/src/lib/supabase/server';
 import { ItemStatus, ITEM_STATUS_LABEL, Item } from '@/src/lib/types/items';
 import { ItemGrid } from '@/src/components/public/ItemGrid';
 import { cn } from '@/src/lib/utils/cn';
-
 
 export const dynamic = 'force-dynamic';
 
@@ -78,21 +77,22 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
           href="/"
           className="text-sm font-semibold text-blue-300 transition hover:text-blue-200"
         >
-          ← Torna alla homepage
+          ← Torna alla home
         </Link>
 
         <div className="space-y-3">
           <p className="text-sm font-semibold uppercase tracking-wide text-blue-300">
-            Catalogo
+            Catalogo item
           </p>
 
           <h1 className="text-4xl font-black tracking-tight text-white">
-            Tutti gli item
+            Scegli un item e invia la tua offerta
           </h1>
 
           <p className="max-w-2xl text-base leading-7 text-slate-400">
-            Sfoglia gli item disponibili, in trattativa o già venduti. Apri una
-            scheda per inviare un’offerta.
+            Consulta tutti gli item disponibili, quelli già in trattativa o
+            quelli venduti. Apri la scheda dell’item che ti interessa per vedere
+            prezzo, dettagli e inviare una proposta senza registrazione.
           </p>
         </div>
       </header>

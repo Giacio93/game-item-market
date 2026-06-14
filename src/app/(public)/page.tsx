@@ -29,18 +29,19 @@ export default async function HomePage() {
       <section className="grid gap-8 py-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6">
           <div className="inline-flex rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-semibold text-blue-200">
-            Marketplace item privato
+            Item disponibili alla vendita
           </div>
 
           <div className="space-y-4">
             <h1 className="max-w-3xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Vendi e ricevi offerte sui tuoi item di gioco.
+              Trova l’item che ti interessa e fai la tua offerta.
             </h1>
 
             <p className="max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-              Guarda gli item disponibili, apri il dettaglio e invia una
-              proposta. Non serve registrarsi: basta lasciare nickname, contatto
-              Discord o Telegram e importo dell’offerta.
+              Sfoglia gli item disponibili, controlla prezzo, descrizione e
+              stato della trattativa. Se un item ti interessa, puoi inviare una
+              proposta senza registrarti: ti basta lasciare nickname, contatto
+              Discord o WhatsApp e importo dell’offerta.
             </p>
           </div>
 
@@ -49,14 +50,14 @@ export default async function HomePage() {
               href="/items"
               className="inline-flex min-h-11 items-center justify-center rounded-xl bg-blue-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-400"
             >
-              Vedi tutti gli item
+              Guarda gli item
             </Link>
 
             <a
               href="#latest-items"
               className="inline-flex min-h-11 items-center justify-center rounded-xl bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
             >
-              Ultimi item
+              Vedi ultimi inserimenti
             </a>
           </div>
         </div>
@@ -69,23 +70,26 @@ export default async function HomePage() {
 
             <div className="mt-5 space-y-4">
               <div className="rounded-xl bg-white/[0.06] p-4">
-                <p className="font-bold text-white">1. Scegli un item</p>
+                <p className="font-bold text-white">1. Scegli l’item</p>
                 <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Consulta prezzo, stato, immagine e descrizione.
+                  Apri la scheda dell’item e controlla immagine, descrizione,
+                  prezzo richiesto e stato.
                 </p>
               </div>
 
               <div className="rounded-xl bg-white/[0.06] p-4">
-                <p className="font-bold text-white">2. Fai un’offerta</p>
+                <p className="font-bold text-white">2. Invia la tua offerta</p>
                 <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Inserisci nickname, contatto e importo.
+                  Compila il form con nickname, contatto Discord o WhatsApp e
+                  importo che vuoi proporre.
                 </p>
               </div>
 
               <div className="rounded-xl bg-white/[0.06] p-4">
-                <p className="font-bold text-white">3. Ti ricontatto io</p>
+                <p className="font-bold text-white">3. Attendi il contatto</p>
                 <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Nessun pagamento online e nessuna registrazione.
+                  Se l’offerta è interessante, verrai ricontattato direttamente.
+                  Non ci sono pagamenti online né registrazioni.
                 </p>
               </div>
             </div>
@@ -100,7 +104,7 @@ export default async function HomePage() {
               Ultimi inserimenti
             </p>
             <h2 className="mt-2 text-3xl font-black text-white">
-              Item più recenti
+              Item aggiunti di recente
             </h2>
           </div>
 
@@ -108,7 +112,7 @@ export default async function HomePage() {
             href="/items"
             className="text-sm font-semibold text-blue-300 transition hover:text-blue-200"
           >
-            Vedi lista completa →
+            Vedi tutti gli item →
           </Link>
         </div>
 

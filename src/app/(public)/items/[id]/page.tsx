@@ -111,7 +111,7 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
               </h2>
 
               <p className="text-sm leading-6 text-slate-400">
-                Non serve registrarsi. Lascia un contatto Discord o Telegram:
+                Non serve registrarsi. Lascia un contatto Discord o WhatsApp:
                 ti ricontatterò io se l’offerta è interessante.
               </p>
             </div>

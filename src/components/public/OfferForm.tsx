@@ -67,7 +67,7 @@ export function OfferForm({ itemId, itemStatus }: OfferFormProps) {
 
       <div className="space-y-2">
         <label htmlFor="nickname" className="text-sm font-semibold text-white">
-          Nickname / nome
+          Nickname in gioco o nome reale
         </label>
         <Input
           id="nickname"
@@ -86,13 +86,13 @@ export function OfferForm({ itemId, itemStatus }: OfferFormProps) {
 
       <div className="space-y-2">
         <label htmlFor="contact" className="text-sm font-semibold text-white">
-          Contatto Discord o Telegram
+          Contatto Discord o WhatsApp
         </label>
         <Input
           id="contact"
           name="contact"
           type="text"
-          placeholder="Es. @nickname oppure nickname#1234"
+          placeholder="Es. @nickname Discord oppure numero WhatsApp"
           disabled={isPending}
           required
         />

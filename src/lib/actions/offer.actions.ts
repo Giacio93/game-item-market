@@ -68,7 +68,7 @@ export async function createOfferAction(
   return {
     ok: true,
     message:
-      'Offerta inviata correttamente. Ti contatterò su Discord o Telegram se interessato.',
+      'Offerta inviata correttamente. Ti contatterò su Discord o WhatsApp se interessato.',
   };
 }
 
