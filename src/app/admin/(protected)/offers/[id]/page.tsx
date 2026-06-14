@@ -170,7 +170,7 @@ export default async function OfferDetailPage({
           </Card>
 
           <Card className="overflow-hidden">
-            <div className="aspect-[4/3] bg-slate-950">
+            <div className="bg-slate-950">
               {offer.item?.image_url ? (
                 <img
                   src={offer.item.image_url}

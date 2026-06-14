@@ -58,7 +58,7 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <section className="space-y-6">
           <Card className="overflow-hidden">
-            <div className="aspect-[4/3] bg-slate-900">
+            <div className="bg-slate-900">
               {item.image_url ? (
                 <img
                   src={item.image_url}

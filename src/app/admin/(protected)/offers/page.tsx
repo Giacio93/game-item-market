@@ -70,7 +70,7 @@ export default async function AdminOffersPage() {
           {offers.map((offer) => (
             <Card key={offer.id} className="overflow-hidden">
               <div className="grid gap-4 p-4 lg:grid-cols-[120px_1fr_280px] lg:items-center">
-                <div className="aspect-[4/3] overflow-hidden rounded-xl bg-slate-950">
+                <div className="overflow-hidden rounded-xl bg-slate-950">
                   {offer.item?.image_url ? (
                     <img
                       src={offer.item.image_url}

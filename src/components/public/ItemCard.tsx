@@ -12,7 +12,7 @@ export function ItemCard({ item }: ItemCardProps) {
   return (
     <Card className="group overflow-hidden">
       <Link href={`/items/${item.slug}`} className="block">
-        <div className="aspect-[4/3] overflow-hidden bg-slate-900">
+        <div className="overflow-hidden bg-slate-900">
           {item.image_url ? (
             <img
               src={item.image_url}

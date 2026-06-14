@@ -64,7 +64,7 @@ export default async function AdminItemsPage() {
           {items.map((item) => (
             <Card key={item.id} className="overflow-hidden">
               <div className="grid gap-4 p-4 lg:grid-cols-[140px_1fr_auto] lg:items-center">
-                <div className="aspect-[4/3] overflow-hidden rounded-xl bg-slate-950">
+                <div className="overflow-hidden rounded-xl bg-slate-950">
                   {item.image_url ? (
                     <img
                       src={item.image_url}
