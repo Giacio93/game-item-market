@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './global.css';
+import { TrackVisit } from '../components/public/TrackVisit';
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ??
@@ -57,6 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it">
+      <TrackVisit />
       <body>{children}</body>
     </html>
   );
