@@ -90,12 +90,104 @@ export function ItemsSearch({ hasActiveSearch, items }: ItemsSearchProps) {
     router.push('/items');
   }
 
+  const activeFiltersCount = [query.trim(), race, type].filter(Boolean).length;
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-white/10 bg-white/[0.06] p-4 shadow-2xl shadow-black/20"
+      className="rounded-2xl border border-white/10 bg-white/[0.05] p-2.5 shadow-xl shadow-black/20 sm:rounded-3xl sm:p-4"
     >
-      <div className="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto] lg:items-end">
+      {/* MOBILE */}
+      <div className="space-y-2 lg:hidden">
+        <div className="flex gap-2">
+          <Input
+            id="q-mobile"
+            name="q"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Cerca item..."
+            className="min-w-0 flex-1"
+          />
+
+          <Button type="submit" className="shrink-0 px-3">
+            Cerca
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-[1fr_auto] gap-2">
+          <details className="rounded-xl border border-white/10 bg-slate-950/60">
+            <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-2 px-3 text-sm font-bold text-white">
+              <span>Filtri</span>
+
+              {activeFiltersCount > 0 ? (
+                <span className="rounded-full bg-blue-500 px-2 py-0.5 text-[10px] font-black text-white">
+                  {activeFiltersCount}
+                </span>
+              ) : (
+                <span className="text-xs text-slate-500">Razza / Tipo</span>
+              )}
+            </summary>
+
+            <div className="space-y-2 border-t border-white/10 p-2.5">
+              <Select
+                id="race-mobile"
+                name="race"
+                value={race}
+                onChange={(event) => setRace(event.target.value)}
+              >
+                <option value="">Tutte le razze</option>
+
+                {raceOptions.map((raceOption) => (
+                  <option key={raceOption} value={raceOption}>
+                    {ITEM_RACE_LABEL[raceOption]}
+                  </option>
+                ))}
+              </Select>
+
+              <Select
+                id="type-mobile"
+                name="type"
+                value={type}
+                onChange={(event) => setType(event.target.value)}
+              >
+                <option value="">Tutte le tipologie</option>
+
+                {typeOptions.map((typeOption) => (
+                  <option key={typeOption} value={typeOption}>
+                    {ITEM_TYPE_LABEL[typeOption]}
+                  </option>
+                ))}
+              </Select>
+
+              <div className="grid grid-cols-2 gap-2">
+                <Button type="submit" className="min-h-10">
+                  Applica
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="min-h-10"
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        {hasActiveSearch ? (
+          <p className="px-1 text-xs text-slate-400">
+            Risultati:{' '}
+            <span className="font-bold text-white">{items.length}</span>
+          </p>
+        ) : null}
+      </div>
+
+      {/* DESKTOP */}
+      <div className="hidden gap-4 lg:grid lg:grid-cols-[1fr_220px_220px_auto] lg:items-end">
         <div className="space-y-2">
           <label htmlFor="q" className="text-sm font-semibold text-white">
             Cerca item
