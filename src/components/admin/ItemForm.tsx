@@ -6,7 +6,7 @@ import { initialItemActionState } from '@/src/lib/actions/item.state';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
 import { Select } from '../ui/Select';
-import { Item, ITEM_STATUS_LABEL } from '@/src/lib/types/items';
+import { Item, ItemRace, ItemType, ITEM_STATUS_LABEL, ITEM_RACE_LABEL, ITEM_TYPE_LABEL } from '@/src/lib/types/items';
 import { slugify } from '@/src/lib/utils/slugify';
 import { Button } from '../ui/Button';
 
@@ -29,6 +29,35 @@ export function ItemForm({ mode, item }: ItemFormProps) {
     action,
     initialItemActionState,
   );
+
+  const selectedRaces = item?.races ?? [];
+
+  const raceOptions: ItemRace[] = [
+    'WARRIOR',
+    'SURA',
+    'SHAMAN',
+    'NINJA',
+    'LYCAN',
+  ];
+
+  const typeOptions: ItemType[] = [
+    'WEAPONS',
+    'ARMORS',
+    'SHIELDS',
+    'BRACELETS',
+    'NECKLACES',
+    'EARRINGS',
+    'TALISMANS',
+    'BELTS',
+    'HELMETS',
+    'SHOES',
+    'GLOVES',
+    'SASHES',
+    'AURA_OUTFITS',
+    'COSTUMES',
+    'OBJECTS',
+    'PETS',
+  ];
 
   return (
     <form action={formAction} className="space-y-6">
@@ -120,52 +149,84 @@ export function ItemForm({ mode, item }: ItemFormProps) {
         ) : null}
       </div>
 
-      {/* <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="price" className="text-sm font-semibold text-white">
-            Prezzo richiesto
-          </label>
-          <Input
-            id="price"
-            name="price"
-            type="number"
-            min="0"
-            step="0.01"
-            defaultValue={item?.price ?? ''}
-            placeholder="Es. 150"
-            disabled={isPending}
-            required
-          />
-          {getFieldError(state.errors, 'price') ? (
+          <span className="text-sm font-semibold text-white">
+            Razza
+          </span>
+
+          <details className="group rounded-xl border border-white/10 bg-slate-950/70">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between px-4 py-2.5 text-sm text-white">
+              <span>
+                {selectedRaces.length > 0
+                  ? selectedRaces.map((race) => ITEM_RACE_LABEL[race]).join(', ')
+                  : 'Seleziona una o più razze'}
+              </span>
+
+              <span className="text-slate-500 transition group-open:rotate-180">
+                ↓
+              </span>
+            </summary>
+
+            <div className="space-y-2 border-t border-white/10 p-4">
+              {raceOptions.map((race) => (
+                <label
+                  key={race}
+                  className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2 text-sm text-slate-300 transition hover:bg-white/5"
+                >
+                  <input
+                    type="checkbox"
+                    name="races"
+                    value={race}
+                    defaultChecked={selectedRaces.includes(race)}
+                    disabled={isPending}
+                    className="h-4 w-4 rounded border-white/20 bg-slate-950"
+                  />
+
+                  <span>{ITEM_RACE_LABEL[race]}</span>
+                </label>
+              ))}
+            </div>
+          </details>
+
+          {getFieldError(state.errors, 'races') ? (
             <p className="text-sm text-rose-300">
-              {getFieldError(state.errors, 'price')}
+              {getFieldError(state.errors, 'races')}
             </p>
-          ) : null}
+          ) : (
+            <p className="text-xs text-slate-500">
+              Puoi selezionare più razze. Lascia vuoto se l’item è valido per tutte.
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="status" className="text-sm font-semibold text-white">
-            Stato
+          <label htmlFor="item_type" className="text-sm font-semibold text-white">
+            Tipologia
           </label>
+
           <Select
-            id="status"
-            name="status"
-            defaultValue={item?.status ?? 'AVAILABLE'}
+            id="item_type"
+            name="item_type"
+            defaultValue={item?.item_type ?? 'OBJECTS'}
             disabled={isPending}
+            required
           >
-            <option value="AVAILABLE">{ITEM_STATUS_LABEL.AVAILABLE}</option>
-            <option value="NEGOTIATION">
-              {ITEM_STATUS_LABEL.NEGOTIATION}
-            </option>
-            <option value="SOLD">{ITEM_STATUS_LABEL.SOLD}</option>
+            {typeOptions.map((type) => (
+              <option key={type} value={type}>
+                {ITEM_TYPE_LABEL[type]}
+              </option>
+            ))}
           </Select>
-          {getFieldError(state.errors, 'status') ? (
+
+          {getFieldError(state.errors, 'item_type') ? (
             <p className="text-sm text-rose-300">
-              {getFieldError(state.errors, 'status')}
+              {getFieldError(state.errors, 'item_type')}
             </p>
           ) : null}
         </div>
-      </div> */}
+      </div>
+
       <div className="grid gap-5 lg:grid-cols-3">
         <div className="space-y-2">
           <label htmlFor="price" className="text-sm font-semibold text-white">

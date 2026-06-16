@@ -1,11 +1,15 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/src/lib/supabase/server';
-import type { Item } from '@/src/lib/types/items';
 import { formatCurrency } from '@/src/lib/utils/format-currency';
 import { Card } from '@/src/components/ui/Card';
 import { ItemStatusBadge } from '@/src/components/public/ItemStatusBadge';
 import { OfferForm } from '@/src/components/public/OfferForm';
+import {
+  ITEM_RACE_LABEL,
+  ITEM_TYPE_LABEL,
+  type Item,
+} from '@/src/lib/types/items';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,6 +53,8 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
     item.highest_offer_price !== null &&
     item.highest_offer_price !== undefined &&
     Number(item.highest_offer_price) > 0;
+  const raceLabels = item.races?.map((race) => ITEM_RACE_LABEL[race]) ?? [];
+  const typeLabel = ITEM_TYPE_LABEL[item.item_type];
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -81,7 +87,31 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
 
           <Card className="p-6">
             <div className="space-y-5">
-              <ItemStatusBadge status={item.status} />
+              <div className="flex flex-wrap justify-between">
+                <ItemStatusBadge status={item.status} />
+                <div className="flex flex-wrap gap-2">
+                  {typeLabel && (
+                    <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-3 py-1 text-xs font-bold text-violet-100 shadow-sm shadow-violet-950/30">
+                      {typeLabel}
+                    </span>
+                  )}
+
+                  {raceLabels.length > 0 ? (
+                    raceLabels.map((race) => (
+                      <span
+                        key={race}
+                        className="rounded-full border border-sky-400/40 bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-100 shadow-sm shadow-sky-950/30"
+                      >
+                        {race}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="rounded-full border border-sky-400/40 bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-100 shadow-sm shadow-sky-950/30">
+                      Tutte le razze
+                    </span>
+                  )}
+                </div>
+              </div>
 
               <div>
                 <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl">

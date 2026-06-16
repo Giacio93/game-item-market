@@ -6,6 +6,33 @@ export const itemStatusSchema = z.enum([
   'SOLD',
 ]);
 
+export const itemRaceSchema = z.enum([
+  'WARRIOR',
+  'SURA',
+  'SHAMAN',
+  'NINJA',
+  'LYCAN',
+]);
+
+export const itemTypeSchema = z.enum([
+  'WEAPONS',
+  'ARMORS',
+  'SHIELDS',
+  'BRACELETS',
+  'NECKLACES',
+  'EARRINGS',
+  'TALISMANS',
+  'BELTS',
+  'HELMETS',
+  'SHOES',
+  'GLOVES',
+  'SASHES',
+  'AURA_OUTFITS',
+  'COSTUMES',
+  'OBJECTS',
+  'PETS',
+]);
+
 const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const itemFormSchema = z.object({
@@ -36,7 +63,6 @@ export const itemFormSchema = z.object({
     .min(0, 'Il prezzo non può essere negativo.')
     .max(999999.99, 'Il prezzo è troppo alto.'),
 
-
   highest_offer_price: z
     .union([
       z.literal(''),
@@ -55,6 +81,10 @@ export const itemFormSchema = z.object({
     .or(z.literal('')),
 
   status: itemStatusSchema,
+
+  races: z.array(itemRaceSchema).default([]),
+
+  item_type: itemTypeSchema,
 });
 
 export type ItemFormValues = z.infer<typeof itemFormSchema>;

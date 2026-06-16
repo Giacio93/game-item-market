@@ -1,8 +1,12 @@
 import Link from 'next/link';
-import type { Item } from '@/src/lib/types/items';
 import { formatCurrency } from '@/src/lib/utils/format-currency';
 import { Card } from '@/src/components/ui/Card';
 import { ItemStatusBadge } from './ItemStatusBadge';
+import {
+  ITEM_RACE_LABEL,
+  ITEM_TYPE_LABEL,
+  type Item,
+} from '@/src/lib/types/items';
 
 type ItemCardProps = {
   item: Item;
@@ -13,7 +17,8 @@ export function ItemCard({ item }: ItemCardProps) {
     item.highest_offer_price !== null &&
     item.highest_offer_price !== undefined &&
     Number(item.highest_offer_price) > 0;
-
+  const raceLabels = item.races?.map((race) => ITEM_RACE_LABEL[race]) ?? [];
+  const typeLabel = ITEM_TYPE_LABEL[item.item_type];
   return (
     <Card className="group h-full overflow-hidden">
       <Link href={`/items/${item.slug}`} className="flex h-full flex-col">
@@ -32,8 +37,31 @@ export function ItemCard({ item }: ItemCardProps) {
         </div>
 
         <div className="flex flex-1 flex-col space-y-4 p-5">
-          <ItemStatusBadge status={item.status} />
+          <div className="flex flex-wrap justify-between">
+            <ItemStatusBadge status={item.status} />
+            <div className="flex flex-wrap gap-2">
+              {typeLabel && (
+                <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-3 py-1 text-xs font-bold text-violet-100 shadow-sm shadow-violet-950/30">
+                  {typeLabel}
+                </span>
+              )}
 
+              {raceLabels.length > 0 ? (
+                raceLabels.map((race) => (
+                  <span
+                    key={race}
+                    className="rounded-full border border-sky-400/40 bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-100 shadow-sm shadow-sky-950/30"
+                  >
+                    {race}
+                  </span>
+                ))
+              ) : (
+                <span className="rounded-full border border-sky-400/40 bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-100 shadow-sm shadow-sky-950/30">
+                  Tutte le razze
+                </span>
+              )}
+            </div>
+          </div>
           <div className="space-y-2">
             <h3 className="line-clamp-2 text-lg font-bold text-white">
               {item.title}

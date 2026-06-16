@@ -138,6 +138,10 @@ export async function createItemAction(
     highest_offer_price: getFieldValue(formData, 'highest_offer_price'),
     image_url: getFieldValue(formData, 'image_url'),
     status: getFieldValue(formData, 'status'),
+    races: formData
+      .getAll('races')
+      .filter((value): value is string => typeof value === 'string'),
+    item_type: getFieldValue(formData, 'item_type'),
   };
 
   const parsed = itemFormSchema.safeParse(rawData);
@@ -181,6 +185,8 @@ export async function createItemAction(
     highest_offer_price: highestOfferPrice,
     image_url: imageUrl,
     status: parsed.data.status,
+    races: parsed.data.races,
+    item_type: parsed.data.item_type,
   });
 
   if (error) {
@@ -235,6 +241,10 @@ export async function updateItemAction(
     highest_offer_price: getFieldValue(formData, 'highest_offer_price'),
     image_url: getFieldValue(formData, 'image_url'),
     status: getFieldValue(formData, 'status'),
+    races: formData
+      .getAll('races')
+      .filter((value): value is string => typeof value === 'string'),
+    item_type: getFieldValue(formData, 'item_type'),
   };
 
   const parsed = itemFormSchema.safeParse(rawData);
@@ -280,6 +290,8 @@ export async function updateItemAction(
       highest_offer_price: highestOfferPrice,
       image_url: imageUrl,
       status: parsed.data.status,
+      races: parsed.data.races,
+      item_type: parsed.data.item_type,
     })
     .eq('id', itemId);
 
