@@ -53,18 +53,26 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
     item.highest_offer_price !== null &&
     item.highest_offer_price !== undefined &&
     Number(item.highest_offer_price) > 0;
+
   const raceLabels = item.races?.map((race) => ITEM_RACE_LABEL[race]) ?? [];
   const typeLabel = ITEM_TYPE_LABEL[item.item_type];
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
+      <div className="mb-8 flex items-center justify-between gap-4">
         <Link
           href="/items"
           className="text-sm font-semibold text-blue-300 transition hover:text-blue-200"
         >
           ← Torna agli item
         </Link>
+
+        <a
+          href="#offer-form"
+          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-blue-500 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-400"
+        >
+          Fai un&apos;offerta
+        </a>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -87,14 +95,15 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
 
           <Card className="p-6">
             <div className="space-y-5">
-              <div className="flex flex-wrap justify-between">
+              <div className="flex flex-wrap justify-between gap-3">
                 <ItemStatusBadge status={item.status} />
+
                 <div className="flex flex-wrap gap-2">
-                  {typeLabel && (
+                  {typeLabel ? (
                     <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-3 py-1 text-xs font-bold text-violet-100 shadow-sm shadow-violet-950/30">
                       {typeLabel}
                     </span>
-                  )}
+                  ) : null}
 
                   {raceLabels.length > 0 ? (
                     raceLabels.map((race) => (
@@ -145,6 +154,7 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Prezzo richiesto
                 </p>
+
                 <p className="mt-1 text-3xl font-black text-white">
                   {formatCurrency(Number(item.price))}
                 </p>
@@ -153,7 +163,7 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
           </Card>
         </section>
 
-        <aside>
+        <aside id="offer-form" className="scroll-mt-6">
           <Card className="sticky top-6 p-6">
             <div className="mb-6 space-y-2">
               <p className="text-sm font-semibold uppercase tracking-wide text-blue-300">

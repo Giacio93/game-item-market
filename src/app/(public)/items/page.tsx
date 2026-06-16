@@ -182,7 +182,9 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
 
       <ItemsSearch hasActiveSearch={hasActiveSearch} items={items} />
 
-      <ItemGrid items={items} />
+      <section id="items-list" className="scroll-mt-4 lg:scroll-mt-8">
+        <ItemGrid items={items} />
+      </section>
     </main>
   );
 }
