@@ -5,6 +5,8 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ??
   'https://game-item-market.vercel.app';
 
+const socialPreviewImage = `${siteUrl}/social-preview-v2.jpg`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    'Sfoglia gli item disponibili, guarda prezzo richiesto e offerta più alta ricevuta, poi fai la tua proposta senza registrarti.',
+    'Catalogo item aggiornato: scegli l’item, guarda i dettagli e lascia un’offerta senza registrarti.',
 
   openGraph: {
     type: 'website',
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
       'Catalogo item aggiornato: scegli l’item, guarda i dettagli e lascia un’offerta senza registrarti.',
     images: [
       {
-        url: '/social-preview.png',
+        url: socialPreviewImage,
         width: 1200,
         height: 630,
         alt: 'Game Item Market - item in vendita',
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
     title: 'Game Item Market | Item in vendita',
     description:
       'Sfoglia gli item disponibili e fai la tua offerta senza registrarti.',
-    images: ['/social-preview.png'],
+    images: [socialPreviewImage],
   },
 
   robots: {
