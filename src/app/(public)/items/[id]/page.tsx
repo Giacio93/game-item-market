@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { createClient } from '@/src/lib/supabase/server';
+import type { Item } from '@/src/lib/types/items';
+import { formatCurrency } from '@/src/lib/utils/format-currency';
 import { Card } from '@/src/components/ui/Card';
 import { ItemStatusBadge } from '@/src/components/public/ItemStatusBadge';
 import { OfferForm } from '@/src/components/public/OfferForm';
-import { formatCurrency } from '@/src/lib/utils/format-currency';
-import { Item } from '@/src/lib/types/items';
-import { createClient } from '@/src/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +30,7 @@ async function getItem(idOrSlug: string) {
     .maybeSingle();
 
   if (error) {
+    console.error('Errore Supabase getItem:', error);
     return null;
   }
 
@@ -43,6 +44,11 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
   if (!item) {
     notFound();
   }
+
+  const hasHighestOffer =
+    item.highest_offer_price !== null &&
+    item.highest_offer_price !== undefined &&
+    Number(item.highest_offer_price) > 0;
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -74,7 +80,7 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
           </Card>
 
           <Card className="p-6">
-            <div className="space-y-4">
+            <div className="space-y-5">
               <ItemStatusBadge status={item.status} />
 
               <div>
@@ -86,6 +92,24 @@ export default async function ItemDetailPage({ params }: ItemDetailPageProps) {
                   {item.description}
                 </p>
               </div>
+
+              {hasHighestOffer ? (
+                <div className="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-5">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-200">
+                    Offerta più alta ricevuta
+                  </p>
+
+                  <p className="mt-2 text-3xl font-black text-white">
+                    {formatCurrency(Number(item.highest_offer_price))}
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-amber-100/80">
+                    Questa è l’offerta più alta che ho ricevuto finora. Non è
+                    ancora stata accettata: se l’item ti interessa, puoi
+                    comunque inviare una proposta migliore.
+                  </p>
+                </div>
+              ) : null}
 
               <div className="rounded-2xl bg-slate-950/60 p-5">
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">

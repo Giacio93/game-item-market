@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '../supabase/server';
-import { ItemActionState } from './item.state';
+import type { ItemActionState } from './item.state';
 import { requireAdmin } from '../auth/admin';
 import { itemFormSchema } from '../validators/item.schema';
 import { slugify } from '../utils/slugify';
@@ -52,6 +52,16 @@ function getStoragePathFromPublicUrl(publicUrl: string) {
   }
 }
 
+function normalizeHighestOfferPrice(
+  value: string | number | undefined,
+): number | null {
+  if (value === '' || value === undefined) {
+    return null;
+  }
+
+  return Number(value);
+}
+
 async function uploadItemImage(
   supabase: Awaited<ReturnType<typeof createClient>>,
   imageFile: File,
@@ -81,6 +91,8 @@ async function uploadItemImage(
     });
 
   if (uploadError) {
+    console.error('Errore uploadItemImage:', uploadError);
+
     return {
       publicUrl: null,
       error: 'Upload immagine non riuscito.',
@@ -123,6 +135,7 @@ export async function createItemAction(
     slug: getFieldValue(formData, 'slug'),
     description: getFieldValue(formData, 'description'),
     price: getFieldValue(formData, 'price'),
+    highest_offer_price: getFieldValue(formData, 'highest_offer_price'),
     image_url: getFieldValue(formData, 'image_url'),
     status: getFieldValue(formData, 'status'),
   };
@@ -156,12 +169,16 @@ export async function createItemAction(
   }
 
   const slug = parsed.data.slug || slugify(parsed.data.title);
+  const highestOfferPrice = normalizeHighestOfferPrice(
+    parsed.data.highest_offer_price,
+  );
 
   const { error } = await supabase.from('items').insert({
     title: parsed.data.title,
     slug,
     description: parsed.data.description,
     price: parsed.data.price,
+    highest_offer_price: highestOfferPrice,
     image_url: imageUrl,
     status: parsed.data.status,
   });
@@ -215,6 +232,7 @@ export async function updateItemAction(
     slug: getFieldValue(formData, 'slug'),
     description: getFieldValue(formData, 'description'),
     price: getFieldValue(formData, 'price'),
+    highest_offer_price: getFieldValue(formData, 'highest_offer_price'),
     image_url: getFieldValue(formData, 'image_url'),
     status: getFieldValue(formData, 'status'),
   };
@@ -248,6 +266,9 @@ export async function updateItemAction(
   }
 
   const slug = parsed.data.slug || slugify(parsed.data.title);
+  const highestOfferPrice = normalizeHighestOfferPrice(
+    parsed.data.highest_offer_price,
+  );
 
   const { error } = await supabase
     .from('items')
@@ -256,6 +277,7 @@ export async function updateItemAction(
       slug,
       description: parsed.data.description,
       price: parsed.data.price,
+      highest_offer_price: highestOfferPrice,
       image_url: imageUrl,
       status: parsed.data.status,
     })

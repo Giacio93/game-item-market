@@ -36,6 +36,17 @@ export const itemFormSchema = z.object({
     .min(0, 'Il prezzo non può essere negativo.')
     .max(999999.99, 'Il prezzo è troppo alto.'),
 
+
+  highest_offer_price: z
+    .union([
+      z.literal(''),
+      z.coerce
+        .number()
+        .min(0, 'Il prezzo offerto non può essere negativo.')
+        .max(999999.99, 'Il prezzo offerto è troppo alto.'),
+    ])
+    .optional(),
+
   image_url: z
     .string()
     .trim()

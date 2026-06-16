@@ -120,7 +120,7 @@ export function ItemForm({ mode, item }: ItemFormProps) {
         ) : null}
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      {/* <div className="grid gap-5 lg:grid-cols-2">
         <div className="space-y-2">
           <label htmlFor="price" className="text-sm font-semibold text-white">
             Prezzo richiesto
@@ -141,6 +141,80 @@ export function ItemForm({ mode, item }: ItemFormProps) {
               {getFieldError(state.errors, 'price')}
             </p>
           ) : null}
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="status" className="text-sm font-semibold text-white">
+            Stato
+          </label>
+          <Select
+            id="status"
+            name="status"
+            defaultValue={item?.status ?? 'AVAILABLE'}
+            disabled={isPending}
+          >
+            <option value="AVAILABLE">{ITEM_STATUS_LABEL.AVAILABLE}</option>
+            <option value="NEGOTIATION">
+              {ITEM_STATUS_LABEL.NEGOTIATION}
+            </option>
+            <option value="SOLD">{ITEM_STATUS_LABEL.SOLD}</option>
+          </Select>
+          {getFieldError(state.errors, 'status') ? (
+            <p className="text-sm text-rose-300">
+              {getFieldError(state.errors, 'status')}
+            </p>
+          ) : null}
+        </div>
+      </div> */}
+      <div className="grid gap-5 lg:grid-cols-3">
+        <div className="space-y-2">
+          <label htmlFor="price" className="text-sm font-semibold text-white">
+            Prezzo richiesto
+          </label>
+          <Input
+            id="price"
+            name="price"
+            type="number"
+            min="0"
+            step="0.01"
+            defaultValue={item?.price ?? ''}
+            placeholder="Es. 150"
+            disabled={isPending}
+            required
+          />
+          {getFieldError(state.errors, 'price') ? (
+            <p className="text-sm text-rose-300">
+              {getFieldError(state.errors, 'price')}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="space-y-2">
+          <label
+            htmlFor="highest_offer_price"
+            className="text-sm font-semibold text-white"
+          >
+            Prezzo offerto
+          </label>
+          <Input
+            id="highest_offer_price"
+            name="highest_offer_price"
+            type="number"
+            min="0"
+            step="0.01"
+            defaultValue={item?.highest_offer_price ?? ''}
+            placeholder="Es. 120"
+            disabled={isPending}
+          />
+          {getFieldError(state.errors, 'highest_offer_price') ? (
+            <p className="text-sm text-rose-300">
+              {getFieldError(state.errors, 'highest_offer_price')}
+            </p>
+          ) : (
+            <p className="text-xs text-slate-500">
+              Inseriscilo manualmente in base all’offerta più alta ricevuta.
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">

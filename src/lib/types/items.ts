@@ -6,6 +6,7 @@ export type Item = {
   slug: string;
   description: string;
   price: number;
+  highest_offer_price: number | null;
   image_url: string | null;
   status: ItemStatus;
   created_at: string;
