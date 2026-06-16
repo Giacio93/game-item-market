@@ -1,45 +1,120 @@
 import Link from 'next/link';
 import { createClient } from '@/src/lib/supabase/server';
-import { ItemStatus, ITEM_STATUS_LABEL, Item } from '@/src/lib/types/items';
+import {
+  ITEM_RACE_LABEL,
+  ITEM_TYPE_LABEL,
+  type Item,
+  type ItemRace,
+  type ItemType,
+} from '@/src/lib/types/items';
 import { ItemGrid } from '@/src/components/public/ItemGrid';
-import { cn } from '@/src/lib/utils/cn';
+import { ItemsSearch } from '@/src/components/public/ItemsSearch';
 
 export const dynamic = 'force-dynamic';
 
 type ItemsPageProps = {
   searchParams: Promise<{
-    status?: string;
+    q?: string;
+    race?: string;
+    type?: string;
   }>;
 };
 
-const publicStatuses: ItemStatus[] = ['AVAILABLE', 'NEGOTIATION'];
+const allowedRaces: ItemRace[] = [
+  'WARRIOR',
+  'SURA',
+  'SHAMAN',
+  'NINJA',
+  'LYCAN',
+];
 
-function getValidStatus(status?: string): ItemStatus | null {
-  if (!status) {
+const allowedTypes: ItemType[] = [
+  'WEAPONS',
+  'ARMORS',
+  'SHIELDS',
+  'BRACELETS',
+  'NECKLACES',
+  'EARRINGS',
+  'TALISMANS',
+  'BELTS',
+  'HELMETS',
+  'SHOES',
+  'GLOVES',
+  'SASHES',
+  'AURA_OUTFITS',
+  'COSTUMES',
+  'OBJECTS',
+  'PETS',
+];
+
+function getValidRace(race?: string): ItemRace | null {
+  if (!race) {
     return null;
   }
 
-  if (publicStatuses.includes(status as ItemStatus)) {
-    return status as ItemStatus;
+  if (allowedRaces.includes(race as ItemRace)) {
+    return race as ItemRace;
   }
 
   return null;
 }
 
-async function getItems(status: ItemStatus | null) {
+function getValidType(type?: string): ItemType | null {
+  if (!type) {
+    return null;
+  }
+
+  if (allowedTypes.includes(type as ItemType)) {
+    return type as ItemType;
+  }
+
+  return null;
+}
+
+function normalizeSearch(value?: string) {
+  return value?.trim().toLowerCase() ?? '';
+}
+
+function filterItems(params: {
+  items: Item[];
+  query: string;
+  race: ItemRace | null;
+  type: ItemType | null;
+}) {
+  const { items, query, race, type } = params;
+
+  return items.filter((item) => {
+    const matchesQuery = query
+      ? [
+        item.title,
+        item.description,
+        item.slug,
+        ITEM_TYPE_LABEL[item.item_type],
+        ...(item.races ?? []).map((itemRace) => ITEM_RACE_LABEL[itemRace]),
+      ]
+        .join(' ')
+        .toLowerCase()
+        .includes(query)
+      : true;
+
+    const matchesRace = race
+      ? item.races.length === 0 || item.races.includes(race)
+      : true;
+
+    const matchesType = type ? item.item_type === type : true;
+
+    return matchesQuery && matchesRace && matchesType;
+  });
+}
+
+async function getItems() {
   const supabase = await createClient();
 
-  let query = supabase
+  const { data, error } = await supabase
     .from('items')
     .select('*')
     .neq('status', 'SOLD')
     .order('created_at', { ascending: false });
-
-  if (status) {
-    query = query.eq('status', status);
-  }
-
-  const { data, error } = await query;
 
   if (error) {
     console.error('Errore Supabase getItems:', error);
@@ -51,25 +126,20 @@ async function getItems(status: ItemStatus | null) {
 
 export default async function ItemsPage({ searchParams }: ItemsPageProps) {
   const resolvedSearchParams = await searchParams;
-  const currentStatus = getValidStatus(resolvedSearchParams.status);
-  const items = await getItems(currentStatus);
 
-  const filters: Array<{
-    label: string;
-    href: string;
-    active: boolean;
-  }> = [
-    {
-      label: 'Tutti',
-      href: '/items',
-      active: currentStatus === null,
-    },
-    ...publicStatuses.map((status) => ({
-      label: ITEM_STATUS_LABEL[status],
-      href: `/items?status=${status}`,
-      active: currentStatus === status,
-    })),
-  ];
+  const query = normalizeSearch(resolvedSearchParams.q);
+  const race = getValidRace(resolvedSearchParams.race);
+  const type = getValidType(resolvedSearchParams.type);
+
+  const allItems = await getItems();
+  const items = filterItems({
+    items: allItems,
+    query,
+    race,
+    type,
+  });
+
+  const hasActiveSearch = Boolean(query || race || type);
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
@@ -87,41 +157,30 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
           </p>
 
           <h1 className="text-4xl font-black tracking-tight text-white">
-            Scegli un item e invia la tua offerta
+            Trova l’item giusto per il tuo personaggio
           </h1>
 
-          <p className="max-w-2xl text-base leading-7 text-slate-400">
-            Qui trovi solo gli item ancora acquistabili. Puoi inviare un’offerta
-            sia sugli item disponibili sia su quelli in trattativa.
+          <p className="max-w-3xl text-base leading-7 text-slate-400">
+            Cerca per nome, descrizione, razza o tipologia. Gli item venduti non
+            vengono mostrati: qui trovi solo oggetti ancora acquistabili o in
+            trattativa.
           </p>
 
-          <div className="max-w-3xl rounded-2xl border border-blue-400/20 bg-blue-400/10 p-4">
-            <p className="text-sm leading-6 text-blue-100">
-              <span className="font-bold text-white">Nota sugli item in trattativa:</span>{' '}
+          <div className="max-w-3xl rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4">
+            <p className="text-sm leading-6 text-amber-100">
+              <span className="font-bold text-white">
+                Nota sugli item in trattativa:
+              </span>{' '}
               significa che sto già valutando una proposta, ma non ho ancora
               accettato nessuna offerta. Se l’item ti interessa, puoi comunque
-              inviare la tua proposta: verrà presa in considerazione.
+              inviare la tua proposta.
             </p>
           </div>
         </div>
       </header>
 
-      <nav className="flex flex-wrap gap-2" aria-label="Filtra item per stato">
-        {filters.map((filter) => (
-          <Link
-            key={filter.href}
-            href={filter.href}
-            className={cn(
-              'rounded-full border px-4 py-2 text-sm font-semibold transition',
-              filter.active
-                ? 'border-blue-400 bg-blue-400/15 text-blue-200'
-                : 'border-white/10 bg-white/[0.04] text-slate-300 hover:bg-white/[0.08]',
-            )}
-          >
-            {filter.label}
-          </Link>
-        ))}
-      </nav>
+
+      <ItemsSearch hasActiveSearch={hasActiveSearch} items={items} />
 
       <ItemGrid items={items} />
     </main>
