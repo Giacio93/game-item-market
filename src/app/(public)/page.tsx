@@ -40,7 +40,7 @@ export default async function HomePage() {
               Scegli un item e fai un’offerta
             </h1>
 
-            <p className="text-sm leading-6 text-slate-400">
+            <p className="text-sm leading-4 md:leading-6 text-slate-400">
               Apri l’item, guarda prezzo e dettagli, poi lascia la tua offerta.
               Non serve registrarsi.
             </p>

@@ -40,44 +40,46 @@ export function ItemCard({ item }: ItemCardProps) {
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col">
-            <div className="mb-1 scale-[0.78] origin-left">
-              <ItemStatusBadge status={item.status} />
+            <div className="mb-1 flex items-start justify-between gap-2">
+              <div className="shrink-0 scale-[0.78] origin-left">
+                <ItemStatusBadge status={item.status} />
+              </div>
+
+              <div className="flex min-w-0 flex-1 flex-wrap justify-end gap-1">
+                <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-2 py-0.5 text-[10px] font-bold text-violet-100">
+                  {ITEM_TYPE_LABEL[item.item_type]}
+                </span>
+
+                {raceLabels.length > 0 ? (
+                  raceLabels.slice(0, 1).map((race) => (
+                    <span
+                      key={race}
+                      className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2 py-0.5 text-[10px] font-bold text-emerald-100"
+                    >
+                      {race}
+                    </span>
+                  ))
+                ) : (
+                  <span className="rounded-full border border-sky-400/40 bg-sky-400/15 px-2 py-0.5 text-[10px] font-bold text-sky-100">
+                    Tutti
+                  </span>
+                )}
+
+                {raceLabels.length > 1 ? (
+                  <span className="rounded-full border border-white/10 bg-white/[0.06] px-2 py-0.5 text-[10px] font-bold text-slate-300">
+                    +{raceLabels.length - 1}
+                  </span>
+                ) : null}
+              </div>
             </div>
 
             <h3 className="line-clamp-2 text-sm font-black leading-5 text-white">
               {item.title}
             </h3>
 
-            <div className="mt-1 flex flex-wrap gap-1">
-              <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-2 py-0.5 text-[10px] font-bold text-violet-100">
-                {ITEM_TYPE_LABEL[item.item_type]}
-              </span>
-
-              {raceLabels.length > 0 ? (
-                raceLabels.slice(0, 1).map((race) => (
-                  <span
-                    key={race}
-                    className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2 py-0.5 text-[10px] font-bold text-emerald-100"
-                  >
-                    {race}
-                  </span>
-                ))
-              ) : (
-                <span className="rounded-full border border-sky-400/40 bg-sky-400/15 px-2 py-0.5 text-[10px] font-bold text-sky-100">
-                  Tutte
-                </span>
-              )}
-
-              {raceLabels.length > 1 ? (
-                <span className="rounded-full border border-white/10 bg-white/[0.06] px-2 py-0.5 text-[10px] font-bold text-slate-300">
-                  +{raceLabels.length - 1}
-                </span>
-              ) : null}
-            </div>
-
             <p className="line-clamp-2 text-xs leading-6 text-slate-400">
-                {item.description}
-              </p>
+              {item.description}
+            </p>
 
             <div className="mt-auto pt-2">
               {hasHighestOffer ? (
@@ -126,7 +128,30 @@ export function ItemCard({ item }: ItemCardProps) {
           </div>
 
           <div className="flex flex-1 flex-col space-y-4 p-5">
-            <ItemStatusBadge status={item.status} />
+            <div className="flex items-start justify-between gap-3">
+              <ItemStatusBadge status={item.status} />
+
+              <div className="flex flex-wrap justify-end gap-2">
+                <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-3 py-1 text-xs font-bold text-violet-100 shadow-sm shadow-violet-950/30">
+                  {ITEM_TYPE_LABEL[item.item_type]}
+                </span>
+
+                {raceLabels.length > 0 ? (
+                  raceLabels.map((race) => (
+                    <span
+                      key={race}
+                      className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-100 shadow-sm shadow-emerald-950/30"
+                    >
+                      {race}
+                    </span>
+                  ))
+                ) : (
+                  <span className="rounded-full border border-sky-400/40 bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-100 shadow-sm shadow-sky-950/30">
+                    Tutte le razze
+                  </span>
+                )}
+              </div>
+            </div>
 
             <div className="space-y-2">
               <h3 className="line-clamp-2 text-lg font-bold text-white">
@@ -136,27 +161,6 @@ export function ItemCard({ item }: ItemCardProps) {
               <p className="line-clamp-2 text-sm leading-6 text-slate-400">
                 {item.description}
               </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-full border border-violet-400/40 bg-violet-400/15 px-3 py-1 text-xs font-bold text-violet-100 shadow-sm shadow-violet-950/30">
-                {ITEM_TYPE_LABEL[item.item_type]}
-              </span>
-
-              {raceLabels.length > 0 ? (
-                raceLabels.map((race) => (
-                  <span
-                    key={race}
-                    className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-100 shadow-sm shadow-emerald-950/30"
-                  >
-                    {race}
-                  </span>
-                ))
-              ) : (
-                <span className="rounded-full border border-sky-400/40 bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-100 shadow-sm shadow-sky-950/30">
-                  Tutte le razze
-                </span>
-              )}
             </div>
 
             <div className="mt-auto space-y-4 pt-2">

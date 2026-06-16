@@ -156,18 +156,18 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
             Catalogo item
           </p>
 
-          <h1 className="text-4xl font-black tracking-tight text-white">
+          <h1 className="text-xl md:text-4xl font-black tracking-tight text-white">
             Trova l’item giusto per il tuo personaggio
           </h1>
 
-          <p className="max-w-3xl text-base leading-7 text-slate-400">
+          <p className="max-w-3xl text-sm md:text-base leading-4 md:leading-7 text-slate-400">
             Cerca per nome, descrizione, razza o tipologia. Gli item venduti non
             vengono mostrati: qui trovi solo oggetti ancora acquistabili o in
             trattativa.
           </p>
 
           <div className="max-w-3xl rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4">
-            <p className="text-sm leading-6 text-amber-100">
+            <p className="text-xs md:text-sm leading-4 md:leading-6 text-amber-100">
               <span className="font-bold text-white">
                 Nota sugli item in trattativa:
               </span>{' '}
